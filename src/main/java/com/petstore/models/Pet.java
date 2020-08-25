@@ -83,4 +83,18 @@ public class Pet {
     public void setBreed(String breed) {
         this.breed = breed;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Pet{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", breed='").append(breed).append('\'');
+        sb.append(", types=").append(types);
+        sb.append(", sex=").append(sex);
+        sb.append(", age=").append(age);
+        sb.append(", birthDate=").append(birthDate);
+        sb.append('}');
+        return sb.toString();
+    }
 }
