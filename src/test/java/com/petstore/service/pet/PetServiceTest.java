@@ -5,6 +5,7 @@ import com.petstore.repository.PetRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -17,6 +18,7 @@ class PetServiceTest {
     @Mock
     PetRepository mPetRepository;
 
+    @InjectMocks
     PetService mPetService;
 
     Pet testPet;
@@ -42,10 +44,19 @@ class PetServiceTest {
 
     @Test
     void findById() {
+        when(mPetService.findById(testPet.getId())).thenReturn(testPet);
+        mPetService.findById(testPet.getId());
+
+        verify(mPetRepository, times(1)).findById(testPet.getId());
     }
 
     @Test
     void update() {
+        when(mPetService.update(testPet)).thenReturn(testPet);
+        mPetService.update(testPet);
+
+        verify(mPetRepository, times(1)).save(testPet);
+
     }
 
     @Test
