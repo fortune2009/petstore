@@ -26,6 +26,10 @@ public class Pet {
 
     private Integer age;
 
+    @ManyToOne()
+    @JoinColumn(name = "store_pets")
+    private Store petStore;
+
     private Date birthDate;
 
     public Integer getId() {

@@ -32,9 +32,9 @@ class PetRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        testPetData = mPetRepository.findById(200).orElse(null);
-        assertThat(testPetData).isNotNull();
-        log.info("Test pet data retrieved from database --> " + testPetData);
+//        testPetData = mPetRepository.findById(200).orElse(null);
+//        assertThat(testPetData).isNotNull();
+//        log.info("Test pet data retrieved from database --> " + testPetData);
     }
 
     @AfterEach
@@ -75,7 +75,11 @@ class PetRepositoryTest {
     void whenPetDetailsIsUpdated_thenUpdateDatabaseDetails(){
 
         assertThat(testPetData.getName()).isEqualTo("Bobby");
+        testPetData = mPetRepository.findById(200).orElse(null);
         testPetData.setName("jiran");
+
+        log.info("Here is the new name --> " + testPetData);
+
 
         testPetData = mPetRepository.save(testPetData);
         assertThat(testPetData.getName()).isEqualTo("jiran");
