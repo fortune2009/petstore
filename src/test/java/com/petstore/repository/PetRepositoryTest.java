@@ -32,9 +32,9 @@ class PetRepositoryTest {
 
     @BeforeEach
     void setUp() {
-//        testPetData = mPetRepository.findById(200).orElse(null);
-//        assertThat(testPetData).isNotNull();
-//        log.info("Test pet data retrieved from database --> " + testPetData);
+        testPetData = mPetRepository.findById(200).orElse(null);
+        assertThat(testPetData).isNotNull();
+        log.info("Test pet data retrieved from database --> " + testPetData);
     }
 
     @AfterEach

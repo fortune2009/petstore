@@ -1,5 +1,8 @@
 package com.petstore.repository;
 
+import com.petstore.models.Pet;
+import com.petstore.models.PetSex;
+import com.petstore.models.PetTypes;
 import com.petstore.models.Store;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -62,5 +65,57 @@ class StoreRepositoryTest {
 
         // fetch a pet from database
 
+    }
+
+    @Test
+    void whenAddPetsToStore (){
+
+        Pet pet = new Pet();
+        pet.setName("Jack");
+        pet.setBreed("Bull Dog");
+        pet.setTypes(PetTypes.DOG);
+        pet.setSex(PetSex.MALE);
+        pet.setAge(5);
+        pet.setPetStore(mTestStore);
+        mTestStore.addPet(pet);
+
+        mTestStore = mStoreRepository.save(mTestStore);
+
+        log.info("Added pets to the store --> " + mTestStore);
+    }
+
+    @Test
+    void whenStoreIsRetrieved_thenRetrievedStoredPets() {
+
+        // create pets
+        Pet pet = new Pet();
+        pet.setName("Jack");
+        pet.setBreed("Bull Dog");
+        pet.setTypes(PetTypes.DOG);
+        pet.setSex(PetSex.MALE);
+        pet.setAge(5);
+        pet.setPetStore(mTestStore);
+
+//        log.info("Added pets to the store --> " + mTestStore);
+
+        // add pets to store
+        Pet pet2 = new Pet();
+        pet2.setName("Jack");
+        pet2.setBreed("Bull Dog");
+        pet2.setTypes(PetTypes.DOG);
+        pet2.setSex(PetSex.MALE);
+        pet2.setAge(5);
+        pet2.setPetStore(mTestStore);
+
+        //add pets to store
+        mTestStore.addPet(pet);
+        mTestStore.addPet(pet2);
+
+        mTestStore = mStoreRepository.save(mTestStore);
+        log.info("Added pets to the store --> " + mTestStore);
+
+        Store savedStore = mStoreRepository.findById(mTestStore.getId()).orElse(null);
+        assertThat(savedStore.getPets()).isNotNull();
+        assertThat(savedStore.getPets()).hasSize(2);
     }
 }

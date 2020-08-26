@@ -88,6 +88,14 @@ public class Pet {
         this.breed = breed;
     }
 
+    public Store getPetStore() {
+        return petStore;
+    }
+
+    public void setPetStore(Store petStore) {
+        this.petStore = petStore;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Pet{");

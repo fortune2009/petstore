@@ -25,7 +25,7 @@ public class Store {
 
     private String country;
 
-    @OneToMany(mappedBy = "petStore")
+    @OneToMany(mappedBy = "petStore", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Pet> pets;
 
 
