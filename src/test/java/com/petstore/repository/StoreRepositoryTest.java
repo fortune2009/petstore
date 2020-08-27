@@ -11,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 
 @SpringBootTest
 @Sql(scripts = {"classpath:db\\insert-store.sql"})
@@ -96,6 +98,42 @@ class StoreRepositoryTest {
         pet.setAge(5);
         pet.setPetStore(mTestStore);
 
+        log.info("Added pets to the store --> " + mTestStore);
+
+        // add pets to store
+        Pet pet2 = new Pet();
+        pet2.setName("Jack");
+        pet2.setBreed("Bull Dog");
+        pet2.setTypes(PetTypes.DOG);
+        pet2.setSex(PetSex.MALE);
+        pet2.setAge(5);
+        pet2.setPetStore(mTestStore);
+
+        //add pets to store
+        mTestStore.addPet(pet);
+        mTestStore.addPet(pet2);
+
+        mTestStore = mStoreRepository.save(mTestStore);
+        log.info("Added pets to the store --> " + mTestStore);
+
+        Store savedStore = mStoreRepository.findById(mTestStore.getId()).orElse(null);
+        assertThat(savedStore.getPets()).isNotNull();
+        assertThat(savedStore.getPets()).hasSize(2);
+
+    }
+
+    @Test
+    void retrievesAllPetsInaStoreTest() {
+
+        // create pets
+        Pet pet = new Pet();
+        pet.setName("Jack");
+        pet.setBreed("Bull Dog");
+        pet.setTypes(PetTypes.DOG);
+        pet.setSex(PetSex.MALE);
+        pet.setAge(5);
+        pet.setPetStore(mTestStore);
+
 //        log.info("Added pets to the store --> " + mTestStore);
 
         // add pets to store
@@ -117,5 +155,9 @@ class StoreRepositoryTest {
         Store savedStore = mStoreRepository.findById(mTestStore.getId()).orElse(null);
         assertThat(savedStore.getPets()).isNotNull();
         assertThat(savedStore.getPets()).hasSize(2);
+
+        List<Pet> petList = savedStore.getPets();
+
+        petList.forEach(System.out::println);
     }
 }

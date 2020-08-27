@@ -9,6 +9,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import static org.mockito.Mockito.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,6 +32,7 @@ class PetServiceTest {
         mPetService = new PetServiceImpl();
 
         MockitoAnnotations.initMocks(this);
+        testPet = new Pet();
     }
 
     @AfterEach
@@ -44,10 +49,10 @@ class PetServiceTest {
 
     @Test
     void findById() {
-        when(mPetService.findById(testPet.getId())).thenReturn(testPet);
-        mPetService.findById(testPet.getId());
+        when(mPetService.findById(3)).thenReturn(Optional.of(testPet));
+        mPetService.findById(3);
 
-        verify(mPetRepository, times(1)).findById(testPet.getId());
+        verify(mPetRepository, times(1)).findById(3);
     }
 
     @Test
@@ -61,9 +66,19 @@ class PetServiceTest {
 
     @Test
     void delete() {
+
+        doNothing().when(mPetRepository).deleteById(8);
+        mPetRepository.deleteById(8);
+
+        verify(mPetRepository, times(1)).deleteById(8);
     }
 
     @Test
     void findAll() {
+        List<Pet> petList = new ArrayList<>();
+        when(mPetService.findAll()).thenReturn(petList);
+        mPetService.findAll();
+
+        verify(mPetRepository, times(1)).findAll();
     }
 }
