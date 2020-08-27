@@ -23,10 +23,13 @@
             <tr th:each="store : ${storeList}">
                 <td th:text="${store.storeName}"></td>
                 <td th:text="${store.storeNumber}"></td>
+                <td th:text="${store.address}"></td>
                 <td th:text="${store.city}"></td>
                 <td th:text="${store.state}"></td>
                 <td th:text="${store.country}"></td>
-                <td><a href="@{/store/{id}(id=${store.id})}">Show Pets</a></td>
+                <td><a href="@{/pets/{id}(id=${store.id})}">Show Pets</a></td>
+                <td><a href="@{/pets/create/{id}(id=${store.id})}">Add Pets</a></td>
+
             </tr>
             </tbody>
         </table>

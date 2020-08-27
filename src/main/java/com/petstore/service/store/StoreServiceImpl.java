@@ -62,4 +62,21 @@ public class StoreServiceImpl implements StoreService{
         }
 
     }
+
+    @Override
+    public List<Pet> findStorePets(Integer storeId) throws StoreObjectNotPresentException {
+        //find store
+        Optional<Store> result = mStoreRepository.findById(storeId);
+
+        if(result.isPresent()){
+            Store savedStore = result.get();
+
+            return savedStore.getPets();
+        }
+        else{
+            throw new StoreObjectNotPresentException("Store does not exist");
+        }
+        //return pet list
+
+    }
 }

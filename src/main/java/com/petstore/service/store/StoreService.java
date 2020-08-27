@@ -20,4 +20,6 @@ public interface StoreService {
     List<Store> findAll();
 
     Store addPet(Pet pet, Integer storeId) throws NullPointerException, StoreObjectNotPresentException;
+
+    List<Pet> findStorePets(Integer storeId) throws StoreObjectNotPresentException;
 }

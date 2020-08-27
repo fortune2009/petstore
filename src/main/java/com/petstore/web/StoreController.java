@@ -1,6 +1,8 @@
 package com.petstore.web;
 
+import com.petstore.models.Pet;
 import com.petstore.models.Store;
+import com.petstore.service.exception.StoreObjectNotPresentException;
 import com.petstore.service.store.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,10 +58,43 @@ public class StoreController {
 
     }
 
-    @PostMapping("/store/pets/{id}")
-    public String getStorePets(@PathVariable("id") Integer id){
+    @PostMapping("/pets/{id}")
+    public String getStorePets(@PathVariable("id") Integer storeId, Model model) {
+        List<Pet> storePets = null;
+        try {
+            storePets = mStoreService.findStorePets(storeId);
+        } catch(StoreObjectNotPresentException e) {
+            return "redirect:/";
+        }
 
-        return "";
+        model.addAttribute("storePets", storePets);
+        return "pet-list";
+    }
+
+    @PostMapping("/pets/create/{id}")
+    public String mapStoreIdToPet(@PathVariable("id") Integer storeId, Model model){
+
+        //create pet object
+        Pet pet = new Pet();
+
+        //create store object and
+        Store store = new Store();
+        store.setId(storeId);
+
+        pet.setPetStore(store);
+
+        //returning model attribute
+        model.addAttribute("pet", pet);
+
+        return "create-pet";
+    }
+
+    @PostMapping("/pet/save")
+    public  String savePetToStore(@ModelAttribute("pet") Pet pet, Model model){
+
+        log.info("Pet info --> " + pet);
+
+        return "redirect:/store/list";
     }
 }
 
