@@ -42,7 +42,7 @@ public class StoreServiceImpl implements StoreService{
     }
 
     @Override
-    public Store addPet(Pet pet, Integer storeId) throws NullPointerException, StoreObjectNotPresentException{
+    public Store addPet(Pet pet, Integer storeId) throws StoreObjectNotPresentException{
 
         //validate that pet is not null
         if (pet == null){
@@ -54,6 +54,7 @@ public class StoreServiceImpl implements StoreService{
         if(result.isPresent()){
 
             Store savedStore = result.get();
+            pet.setPetStore(savedStore);
             savedStore.addPet(pet);
            return mStoreRepository.save(savedStore);
         }

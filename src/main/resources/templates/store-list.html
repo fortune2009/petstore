@@ -27,8 +27,8 @@
                 <td th:text="${store.city}"></td>
                 <td th:text="${store.state}"></td>
                 <td th:text="${store.country}"></td>
-                <td><a href="@{/pets/{id}(id=${store.id})}">Show Pets</a></td>
-                <td><a href="@{/pets/create/{id}(id=${store.id})}">Add Pets</a></td>
+                <td><a href="@{/store/pets/{id}(id=${store.getId()})}">Show Pets</a></td>
+                <td><a href="@{/store/pets/create/{id}(id=${store.getId})}">Add Pet</a></td>
 
             </tr>
             </tbody>

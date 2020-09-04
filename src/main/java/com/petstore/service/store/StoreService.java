@@ -19,7 +19,7 @@ public interface StoreService {
 
     List<Store> findAll();
 
-    Store addPet(Pet pet, Integer storeId) throws NullPointerException, StoreObjectNotPresentException;
+    Store addPet(Pet pet, Integer storeId) throws StoreObjectNotPresentException;
 
     List<Pet> findStorePets(Integer storeId) throws StoreObjectNotPresentException;
 }

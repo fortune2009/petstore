@@ -1,9 +1,12 @@
 package com.petstore.web;
 
 import com.petstore.models.Pet;
+import com.petstore.models.PetSex;
+import com.petstore.models.PetTypes;
 import com.petstore.models.Store;
 import com.petstore.service.exception.StoreObjectNotPresentException;
 import com.petstore.service.store.StoreService;
+import com.petstore.web.dto.StorePetDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,12 +24,12 @@ public class StoreController {
 
     Logger log = Logger.getLogger(getClass().getName());
 
-    @GetMapping("/")
-    public String welcomePage(Model model){
-
-        model.addAttribute("message", "Welcome to Pet Lovers Home page");
-        return "index";
-    }
+//    @GetMapping("/")
+//    public String welcomePage(Model model){
+//
+//        model.addAttribute("message", "Welcome to Pet Lovers Home page");
+//        return "index";
+//    }
 
     @GetMapping("/form")
     public String getStoreForm(Model model){
@@ -74,25 +77,41 @@ public class StoreController {
     @PostMapping("/pets/create/{id}")
     public String mapStoreIdToPet(@PathVariable("id") Integer storeId, Model model){
 
+        log.info("store id -->" + storeId);
+
         //create pet object
         Pet pet = new Pet();
 
         //create store object and
-        Store store = new Store();
-        store.setId(storeId);
-
-        pet.setPetStore(store);
+        StorePetDTO store = new StorePetDTO();
+        store.setStoreId(storeId);
 
         //returning model attribute
-        model.addAttribute("pet", pet);
+        model.addAttribute("storePet", pet);
 
         return "create-pet";
     }
 
     @PostMapping("/pet/save")
-    public  String savePetToStore(@ModelAttribute("pet") Pet pet, Model model){
+    public  String savePetToStore(@ModelAttribute("pet") StorePetDTO petDto, Model model){
 
-        log.info("Pet info --> " + pet);
+        log.info("Store Pet info --> " + petDto);
+
+        //create a pet object
+        Pet pet = new Pet();
+        pet.setName(petDto.getName());
+        pet.setBreed(petDto.getBreed());
+        pet.setAge(petDto.getAge());
+        pet.setSex(PetSex.valueOf(petDto.getSex()));
+        pet.setTypes(PetTypes.valueOf(petDto.getTypes()));
+
+        try {
+            mStoreService.addPet(pet, petDto.getStoreId());
+        }
+        catch(StoreObjectNotPresentException e){
+            return "redirect:/store/list";
+        }
+
 
         return "redirect:/store/list";
     }

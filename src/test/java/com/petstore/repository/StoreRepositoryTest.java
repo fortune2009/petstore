@@ -120,6 +120,9 @@ class StoreRepositoryTest {
         assertThat(savedStore.getPets()).isNotNull();
         assertThat(savedStore.getPets()).hasSize(2);
 
+//        List<Pet> petList = savedStore.getPets();
+//
+//        petList.forEach(System.out::println);
     }
 
     @Test
@@ -134,7 +137,7 @@ class StoreRepositoryTest {
         pet.setAge(5);
         pet.setPetStore(mTestStore);
 
-//        log.info("Added pets to the store --> " + mTestStore);
+        log.info("Added pets to the store --> " + mTestStore);
 
         // add pets to store
         Pet pet2 = new Pet();
